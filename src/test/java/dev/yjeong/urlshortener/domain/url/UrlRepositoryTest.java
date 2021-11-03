@@ -30,7 +30,7 @@ public class UrlRepositoryTest {
         // when
         Url savedUrl = urlRepository.save(url);
 
-        //then
+        // then
         assertEquals(originalUrl, savedUrl.getOriginalUrl());
         assertEquals(shortenedUrl, savedUrl.getShortenedUrl());
         assertEquals(0, savedUrl.getRedirectCount());
