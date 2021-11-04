@@ -23,7 +23,9 @@ const home = {
             let shortenedUrl = data["shortenedUrl"]
             $('#result').val(shortenedUrl)
         }).fail(function (error) {
-            alert(JSON.stringify(error));
+            alert(error["responseJSON"]["message"]);
+            $('#url').val("")
+            $('#result').val("")
         });
     },
     copy : function () {
