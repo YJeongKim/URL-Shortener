@@ -13,3 +13,7 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
+
+server:
+  host: localhost
+  port: 8080

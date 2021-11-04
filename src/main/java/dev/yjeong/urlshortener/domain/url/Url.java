@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +30,10 @@ public class Url extends BaseEntity {
         this.originalUrl = originalUrl;
         this.shortenedUrl = shortenedUrl;
         this.redirectCount = 0;
+    }
+
+    public void setShortenedUrl(String shortenedUrl) {
+        this.shortenedUrl = shortenedUrl;
     }
 
     public void increaseRedirectCount() {
