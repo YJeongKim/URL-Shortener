@@ -12,8 +12,7 @@ import dev.yjeong.urlshortener.dto.url.UrlResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +42,7 @@ public class UrlService {
         return UrlResponseDto.of(url);
     }
 
+    @Transactional
     public String getOriginalUrl(String path) {
         long urlId = base62Manager.decode(path);
         Url url = urlRepository.findById(urlId)
