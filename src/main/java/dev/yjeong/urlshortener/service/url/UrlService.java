@@ -1,5 +1,8 @@
 package dev.yjeong.urlshortener.service.url;
 
+import dev.yjeong.urlshortener.common.exception.BadRequestException;
+import dev.yjeong.urlshortener.common.exception.ExceptionType;
+import dev.yjeong.urlshortener.common.exception.NotFoundException;
 import dev.yjeong.urlshortener.common.util.Base62Manager;
 import dev.yjeong.urlshortener.common.util.UrlManager;
 import dev.yjeong.urlshortener.domain.url.Url;
@@ -25,7 +28,7 @@ public class UrlService {
     public UrlResponseDto shortenUrl(UrlRequestDto urlRequestDto) {
         Url url;
 
-        if (!isValidUrl(urlRequestDto.getUrl())) throw new IllegalArgumentException();
+        if (!isValidUrl(urlRequestDto.getUrl())) throw new BadRequestException(ExceptionType.INVALID_URL_FORMAT);
 
         if (urlRepository.existsByOriginalUrl(urlRequestDto.getUrl())) {
             url = urlRepository.findByOriginalUrl(urlRequestDto.getUrl());
@@ -44,7 +47,7 @@ public class UrlService {
     public String getOriginalUrl(String path) {
         long urlId = base62Manager.decode(path);
         Url url = urlRepository.findById(urlId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NotFoundException(ExceptionType.NOT_FOUNT_URL));
 
         url.increaseRedirectCount();
         return url.getOriginalUrl();
