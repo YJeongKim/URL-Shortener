@@ -1,14 +1,4 @@
 const home = {
-    init : function () {
-        let _this = this;
-        $('#result-div').hide()
-        $('#button-shorten').on('click', function () {
-            _this.shorten();
-        });
-        $('#button-copy').on('click', function () {
-            _this.copy();
-        });
-    },
     shorten : function () {
         let data = {
             url: $("#url").val()
@@ -18,19 +8,22 @@ const home = {
             url: "/api/urls",
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
-        }).done(function (data) {
-            $('#result-div').show()
-            let shortenedUrl = data["shortenedUrl"]
-            $('#result').val(shortenedUrl)
-        }).fail(function (error) {
-            alert(error["responseJSON"]["message"]);
-            $('#url').val("")
-            $('#result').val("")
+            success: function (res) {
+                let shortenedUrl = res["shortenedUrl"]
+                $('#shortened-url').val(shortenedUrl)
+            },
+            error: function (error) {
+                alert(error["responseJSON"]["message"]);
+                $('#url').val("")
+                $('#shortened-url').val("")
+            }
         });
     },
     copy : function () {
-        navigator.clipboard.writeText($('#result').val()).then(r => alert("copied!"));
+        navigator.clipboard.writeText($('#shortened-url').val()).then(r => alert("copied!"));
+    },
+    clear : function () {
+        $('#url').val("")
+        $('#shortened-url').val("")
     }
 }
-
-home.init()
