@@ -16,7 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -63,6 +65,32 @@ public class UrlControllerTest {
 
         assertEquals(url, originalUrl);
         assertEquals(urlId, 1);
+    }
+
+    @Test
+    @DisplayName("URL 리다이렉트 API 테스트")
+    void redirectUrlTest() throws Exception {
+        // given
+        String url = "https://www.google.com/";
+        UrlRequestDto urlRequestDto = UrlRequestDto.builder()
+                .url(url)
+                .build();
+        String jsonData = new Gson().toJson(urlRequestDto);
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/urls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonData))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String result = mvcResult.getResponse().getContentAsString();
+        JsonObject jsonObject = JsonParser.parseString(result).getAsJsonObject();
+        String shortenedUrl = jsonObject.get("shortenedUrl").getAsString();
+
+        // when, then
+        mockMvc.perform(get(shortenedUrl))
+                .andExpect(redirectedUrl(url))
+                .andReturn();
     }
 
 }

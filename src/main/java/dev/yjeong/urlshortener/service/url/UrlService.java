@@ -11,6 +11,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -38,6 +39,15 @@ public class UrlService {
             url.setShortenedUrl(shortenedUrl);
         }
         return UrlResponseDto.of(url);
+    }
+
+    public String getOriginalUrl(String path) {
+        long urlId = base62Manager.decode(path);
+        Url url = urlRepository.findById(urlId)
+                .orElseThrow(() -> new NoSuchElementException());
+
+        url.increaseRedirectCount();
+        return url.getOriginalUrl();
     }
 
     private boolean isValidUrl(String url) {

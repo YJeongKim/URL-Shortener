@@ -5,9 +5,10 @@ import dev.yjeong.urlshortener.dto.url.UrlResponseDto;
 import dev.yjeong.urlshortener.service.url.UrlService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,6 +20,13 @@ public class UrlController {
     public ResponseEntity<UrlResponseDto> shortenUrl(@RequestBody UrlRequestDto urlRequestDto) {
         UrlResponseDto urlResponseDto = urlService.shortenUrl(urlRequestDto);
         return ResponseEntity.ok().body(urlResponseDto);
+    }
+
+    @GetMapping("/{path}")
+    public void redirectUrl(@PathVariable String path,
+                            HttpServletResponse httpServletResponse) throws IOException {
+        String originalUrl = urlService.getOriginalUrl(path);
+        httpServletResponse.sendRedirect(originalUrl);
     }
 
 }
