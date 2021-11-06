@@ -97,6 +97,8 @@
 
 ## 🎨 Result
 
+<img src="https://user-images.githubusercontent.com/33328991/140698465-4f6e5022-df6d-4561-9402-08554cf2b672.gif">
+
 <details>
 
 <summary>1차 Version</summary>
