@@ -12,16 +12,15 @@
 
 - 결과값은 주소를 제외하고 8글자 이내로 생성
 
-
 <br>
 
 ## 🎮 Skill
 
-#### Backend
+### Backend
 
 `Java` `SpringBoot` `Gradle` `H2Database` `SpringDataJPA`
 
-#### Frontend
+### Frontend
 
 `Mustache` `JavaScript` `jQuery` `CSS`
 
@@ -30,6 +29,8 @@
 ## 🧩 API Spec
 
 > Request URL : http://localhost:8080/
+
+<br>
 
 ### `POST` /api/urls
 
@@ -71,6 +72,8 @@
       }
       ```
 
+<br>
+
 ### `GET` /{path}
 
 ```
@@ -98,6 +101,8 @@
 ## 🎨 Result
 
 <img src="https://user-images.githubusercontent.com/33328991/140698465-4f6e5022-df6d-4561-9402-08554cf2b672.gif">
+
+<br>
 
 <details>
 
